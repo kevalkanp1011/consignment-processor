@@ -217,6 +217,3 @@ MIT © 2025 Keval Kanpariya
 
 For issues or enhancements, feel free to raise an issue or ping me on [GitHub](https://github.com/kevalkanp1011).
 
-```
-
----
