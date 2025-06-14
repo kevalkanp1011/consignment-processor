@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import FileUploadArea from './components/FileUploadArea';
 import HowItWorksCard from './components/HowItWorksCard';
-import ResultItem from './components/ResultItem';
+import ResultItem, { ResultItemProps } from './components/ResultItem';
 import StatCard from './components/StatCard';
 import { showToast } from '../utils/toast';
 import { uploadFile } from '@/lib/api';
@@ -14,10 +14,7 @@ const VALID_FILE_TYPES = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   'text/csv'
 ];
-const POSSIBLE_CONSIGNMENT_KEYS = [
-  'barcodeno', 'barcode', 'barcodenumber', 'barcode.no',
-  'consignment', 'consignmentno', 'consignmentnumber', 'cnno', 'cno',
-];
+
 
 export default function Home() {
   // State
@@ -26,13 +23,12 @@ export default function Home() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressStatus, setProgressStatus] = useState('Processing...');
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<ResultItemProps[]>([]);
   const [stats, setStats] = useState({
     total: 0,
     success: 0,
     failed: 0
   });
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Effects
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface ResultItemProps {
+export interface ResultItemProps {
   consignmentNumber: string;
   status: 'success' | 'error';
   message: string;
@@ -22,7 +22,6 @@ const ResultItem: React.FC<ResultItemProps> = ({
     : 'bg-red-100 text-red-800';
     
   const statusText = status === 'success' ? 'Success' : 'Error';
-  const iconClass = status === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
