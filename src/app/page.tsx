@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import FileUploadArea from './components/FileUploadArea';
 import HowItWorksCard from './components/HowItWorksCard';
 import ResultItem, { ResultItemProps } from './components/ResultItem';
@@ -79,7 +79,7 @@ export default function Home() {
 
       if (data.results) {
         setResults(data.results);
-        const successCount = data.results.filter((r: any) => r.status === 'success').length;
+        const successCount = data.results.filter((r: ResultItemProps) => r.status === 'success').length;
         setStats({
           total: data.results.length,
           success: successCount,
@@ -87,8 +87,21 @@ export default function Home() {
         });
       }
 
-    } catch (error: any) {
-      const message = error.response?.data?.message || error.message || "Upload failed.";
+    } catch (error) {
+      let message = "Upload failed.";
+
+      if (error instanceof Error) {
+        message = error.message;
+      }
+
+      // Check if error is an AxiosError-like object
+      if (typeof error === 'object' && error !== null && 'response' in error) {
+        const err = error as { response?: { data?: { message?: string } } };
+        if (err.response?.data?.message) {
+          message = err.response.data.message;
+        }
+      }
+
       showToast(`Upload error: ${message}`, 'error');
     } finally {
       setIsProcessing(false);
@@ -146,8 +159,8 @@ export default function Home() {
                 onClick={processFile}
                 disabled={isProcessing}
                 className={`mt-6 w-full py-4 px-6 rounded-xl font-semibold text-lg flex items-center justify-center transition-all ${isProcessing
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
                   }`}
               >
                 {isProcessing ? (
