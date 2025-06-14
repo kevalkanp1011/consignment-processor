@@ -9,7 +9,6 @@ import { showToast } from '../utils/toast';
 import { uploadFile } from '@/lib/api';
 
 // Constants
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/upload-consignments';
 const VALID_FILE_TYPES = [
   'application/vnd.ms-excel',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
